@@ -2,6 +2,10 @@ package com.wq.web;
 
 import com.wq.User;
 import com.wq.data.UserRepository;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,13 +39,17 @@ public class userController {
 	//GET用户登录的页面
 	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public String userLogin(){
+		System.out.println("weweweew");
 		return "/user/login";
 	}
 	
 	//处理用户填写的登录表单
 	@RequestMapping(value="login",method=RequestMethod.POST)
-	public String processUserLogin(User u){
+	public String processUserLogin(HttpServletRequest request){
 		//如果没有这个人，重新填写
+		String n = request.getParameter("Username");
+		String p = request.getParameter("Userpassword");
+		User u = new User(n,p);
 		if(!userList.LoginRight(u)){
 			return "/user/login";
 		}else{
@@ -59,10 +67,10 @@ public class userController {
 	
 	//处理用户注册
 	@RequestMapping(value="register",method=RequestMethod.POST)
-	public String processUserRegister(Model model,User u){
-		if(!userList.Registed(u.getUsername())){
-			user = new User(u.getUsername(),u.getUserpassword(),u.getGender());
-			userList.save(user);
+	public String processUserRegister(HttpServletRequest request){
+		if(!userList.Registed(request.getParameter("Username"))){
+			User u = new User(request.getParameter("Username"),request.getParameter("Userpassword"),request.getParameter("gender"));
+			userList.save(u);
 			return "redirect:/user/index";
 		}
 		else return "/user/register";

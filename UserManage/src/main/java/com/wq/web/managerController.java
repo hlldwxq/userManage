@@ -1,7 +1,7 @@
 package com.wq.web;
 
 import com.wq.User;
-import com.wq.data.UserRepository;
+import com.wq.data.hibernateUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +18,7 @@ import java.util.List;
 public class managerController {
 	
 
-	private UserRepository userList;
-
-	@Autowired
-	public managerController(UserRepository ur){
-		this.userList = ur;
-	}
+	@Autowired private hibernateUserRepository userList;
 	
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	public String ManagerIndex(){
@@ -45,14 +40,14 @@ public class managerController {
 	
 	@RequestMapping(value="/allUsers",method=RequestMethod.GET)
 	public String showAllUsers(Model model){
-		List<User> u = userList.findAll();
+		List<User> u = userList.getAll();
 		model.addAttribute("allusers",u);
 		return "manager/allUsers";
 	}
 	
 	@RequestMapping(value="/delete/{userId}",method=RequestMethod.GET)
 	public String deleteUser(@PathVariable long userId){
-		userList.Delete(userId);
+		userList.deleteById(userId);
 		return "redirect:/manager/allUsers";
 	}
 	
