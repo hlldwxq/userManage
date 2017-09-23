@@ -46,7 +46,7 @@ public class managerController {
 	}
 	
 	@RequestMapping(value="/delete/{userId}",method=RequestMethod.GET)
-	public String deleteUser(@PathVariable long userId){
+	public String deleteUser(@PathVariable Integer userId){
 		userList.deleteById(userId);
 		return "redirect:/manager/allUsers";
 	}

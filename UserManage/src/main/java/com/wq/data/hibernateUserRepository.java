@@ -28,27 +28,30 @@ public class hibernateUserRepository implements UserRepository{
 	}
 
 	public User findByName(String name) {
-		return (User)this.currentSession().createQuery("from user where username = ?")
+		return (User)this.currentSession().createQuery("from User where username = ?")
 						 .setParameter(0, name).uniqueResult();
 	}
 	
-	public User findById(Long id){
-		return (User)this.currentSession().createQuery("from user where id = ?")
+	public User findById(Integer id){
+		return (User)this.currentSession().createQuery("from User where id = ?")
 				         .setParameter(0, id).uniqueResult();
 
 	}
 	
 	public boolean LoginRight(User u) {
-		return true;
-
+		User user = (User)this.currentSession().createQuery("from User where username = ? and userpassword = ?")
+					.setParameter(0,u.getUsername()).setParameter(1,u.getUserpassword()).uniqueResult();
+		return user!=null;
 	}
 
 	public boolean Registed(String name) {
-		return false;	
+		User user = (User)this.currentSession().createQuery("from User where username = ?")
+					.setParameter(0,name).uniqueResult();
+		return user!=null;
 	}
 
-	public void deleteById(long id) {
-		currentSession().createQuery("delete user where id = ? ")
+	public void deleteById(Integer id) {
+		currentSession().createQuery("delete User where id = ? ")
 		                .setParameter(0,id).executeUpdate();
 	}
 
