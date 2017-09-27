@@ -55,4 +55,18 @@ public class hibernateUserRepository implements UserRepository{
 		                .setParameter(0,id).executeUpdate();
 	}
 
+	public List<User> findByIdAll(String id) {
+		String hql="from User as user where user.id like '%"+id+"%'"; 
+		@SuppressWarnings("unchecked")
+		List<User> user = (List<User>)this.currentSession().createQuery(hql).list();
+	    return user;
+	}
+
+	public List<User> findByNameAll(String name) {
+		String hql="from User as user where user.username like '%"+name+"%'"; 
+		@SuppressWarnings("unchecked")
+		List<User> user = (List<User>)this.currentSession().createQuery(hql).list();
+	    return user;
+	}
+
 }

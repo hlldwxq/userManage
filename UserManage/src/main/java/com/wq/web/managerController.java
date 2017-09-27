@@ -1,5 +1,6 @@
 package com.wq.web;
 
+import com.wq.Manager;
 import com.wq.User;
 import com.wq.data.hibernateUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class managerController {
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String processManagerLogin(HttpServletRequest request,HttpServletResponse response){
-		if(request.getParameter("mname").equals("admin") && request.getParameter("mpassword").equals("123")){
+	public String processManagerLogin(Manager m,HttpServletRequest request){
+		if(request.getParameter("mname").equals(m.getMname()) && request.getParameter("mpassword").equals(m.getMpassword())){
 			return "redirect:/manager/index";
 		}
 		else return "manager/login";

@@ -28,7 +28,7 @@ public class User {
     	return id;
     }  
     public void setId(Integer id){
-    	System.out.println(id);
+    	//System.out.println(id);
     	this.id = id;
     }
     
@@ -37,7 +37,7 @@ public class User {
         return username;  
     }  
     public void setUsername(String username){
-    	System.out.println(username);
+    	//System.out.println(username);
     	this.username = username;
     }
 
@@ -46,7 +46,7 @@ public class User {
         return userpassword;  
     }  
     public void setUserpassword(String userpassword){
-    	System.out.println(userpassword);
+    	//System.out.println(userpassword);
     	this.userpassword = userpassword;
     }
     
@@ -55,7 +55,7 @@ public class User {
         return gender;  
     }  
     public void setGender(String gender){
-    	System.out.println(gender);
+    	//System.out.println(gender);
     	this.gender = gender;
     }
     

@@ -13,5 +13,6 @@
             <input type="submit" value="登录"/> 
     	</form>
     	<a href="register">还没有账号？快来注册一个吧</a>
+    	
 	</body>
 </html>
