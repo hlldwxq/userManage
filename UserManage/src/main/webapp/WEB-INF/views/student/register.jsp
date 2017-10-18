@@ -8,8 +8,8 @@
 </head>
 <body>
 	<form action="register" method="post">
-                          用户名： <input type = "text" name="Username"/>
-                           密     码： <input type = "password" name="Userpassword"/>
+                          用户名： <input type = "text" name="studentname"/>
+                           密     码： <input type = "password" name="studentpassword"/>
                            性     别： <input type = "text" name="gender"/>
           <input type="submit" value="注册"/>                    
     </form>

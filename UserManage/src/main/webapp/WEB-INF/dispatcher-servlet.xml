@@ -17,23 +17,11 @@
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">  
     
     <context:component-scan base-package="com.wq">
-    	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" />
+    	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>    
-    
-    <!-- Http请求映射 
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-    	<property name="cacheSeconds" value="0" />
-    	<property name="messageConverters">
-    		<list>
-    			<ref bean="mappingJacksonHttpMessageConverter"/>
-    			<ref bean="mappingStringHttpMessageConverter"/>
-    		</list>
-    	</property>
-    	<property name="webBindingInitializer" ref="webBindingInitializer">
-    	</property>
-    </bean>-->
+
     
     <!-- ViewResolver视图解析器 -->  
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
