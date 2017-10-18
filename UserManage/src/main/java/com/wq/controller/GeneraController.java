@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class GeneraController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String index() {
-		System.out.println("dfdfdasa1111");
         return "index";
 	}
 }
