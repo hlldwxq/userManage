@@ -27,11 +27,11 @@
 	    <div class="col-md-2 column">
 	    </div>
 		<div class="col-md-8 column">
-		<form class="form-horizontal" action="projectApplication" method="post">
+		<form class="form-horizontal" action="projectApplication" method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">年份：</label>
 			    <div class="col-sm-10">
-				<select class="form-control" name="projectDate">
+				<select class="form-control" name="projectDate" readonly="readonly">
 					<option value="${batch.year}">${batch.year}</option>
 		    	</select>
 		    	</div>
@@ -61,10 +61,10 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">项目级别：</label>
 				<div class="col-sm-10">
-				<select name="projectLevel" class="form-control">
+				<select name="projectLevel" class="form-control" readonly="readonly">
 					<option value="${batch.level}">${batch.level} </option>
 		    	</select>
-		    	<span>0:国家级</span><br><span>1:北京市级</span>
+		    	<span>1:国家级</span><br><span>2:北京市级</span>
 	    		</div>
 	    	</div>
 	    	<div class="form-group">
@@ -79,11 +79,17 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">项目状态：</label>
 				<div class="col-sm-10">
-				<select name="projectState" class="form-control">
+				<select name="projectState" class="form-control" readonly="readonly">
 					<option value="<%=StudentProject.WAIT_PASS%>"><%=StudentProject.allState[2]%></option>
 		    	</select>
 		    	</div>
 		    </div>
+		    <div class="form-group">
+		    	<label class="col-sm-2 control-label">申请书：</label>
+		    	<div class="col-sm-10">
+		    		<input type="file" name="reqisition"/>
+		    	</div>
+	    	</div>
 	    	<input type="submit" value="提交">
 		</form>	
 		</div>

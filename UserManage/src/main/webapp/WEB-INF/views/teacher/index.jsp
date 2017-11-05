@@ -13,6 +13,8 @@
 </head>
 <body>
 	<%@include file="base.jsp" %>
-
+	<div>
+		<h1>首页还没写好，导航栏可以点击</h1>		
+	</div>
 </body>
 </html>

@@ -28,23 +28,23 @@
 		  	<th>审核老师</th>
 		  	<th>申请评分</th>
 		  	<th>结项评分</th>
+		  	<th>详情</th>
 		  </tr>
-		  <c:if test="${myProject==null}">
-			<h2>没有项目</h2>
-		</c:if>
+		  
 		<c:if test="${myProject!=null}">
 			<c:forEach items="${myProject}" var="project">
 			  <tr>
 			  	<td>${project.projectId}</td>
 			  	<td>${project.projectName}</td>
-			  	<td>${project.projectTeacher}</td>
-			  	<td>${project.projectLeading}</td>
+			  	<td>${project.teacherName}</td>
+			  	<td>${project.leadingName}</td>
 			  	<td>${project.projectLevel}</td>
 			  	<td>${project.projectType}</td>
 			  	<td>${project.projectState}</td>
-			  	<td>${project.projectExpert}</td>
+			  	<td>${project.expertName}</td>
 			  	<td>${project.firstGrade}</td>
 			  	<td>${project.secondGrade}</td>
+			  	<td>还没写</td>
 			  </tr>
 			 </c:forEach>
 		</c:if>

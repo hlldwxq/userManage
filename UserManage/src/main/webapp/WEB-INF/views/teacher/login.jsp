@@ -35,9 +35,9 @@
 					<h2>登录</h2>
 					<form class="form-horizontal" action="login" method="post">
 						<div class="form-group">
-				            <label class="col-sm-2 control-label">教师姓名：</label>
+				            <label class="col-sm-2 control-label">教师工号：</label>
 				            <div class="col-sm-10">
-				            <input class="form-control" type="text" name="teacherName"/>
+				            <input class="form-control" type="text" name="id"/>
 				            </div>
 			            </div> 
 				        <div class="form-group">

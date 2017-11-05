@@ -25,7 +25,7 @@ public class BatchDAOImpl implements BatchDAO{
 
 	@Override
 	public void save(ProjectBatch batch) {
-		System.out.println("DAO");
+		
 		this.currentSession().save(batch);
 		
 	}
@@ -38,10 +38,18 @@ public class BatchDAOImpl implements BatchDAO{
 	}
 
 	@Override
-	public void updateState(int year, int type) {
-		this.currentSession().createQuery("update ProjectBatch set state = state+1 where year = ? and type = ?")
-		.setParameter(0, year).setParameter(1, type)
+	public void updateState(int year, int level) {
+		this.currentSession().createQuery("update ProjectBatch set state = state+1 where year = ? and level = ?")
+		.setParameter(0, year).setParameter(1, level)
 		.executeUpdate();  
+	}
+
+	@Override
+	public ProjectBatch getBatchByYearAndLevel(int year, int level) {
+		ProjectBatch batch = (ProjectBatch)this.currentSession().createQuery("from ProjectBatch where year = ? and level = ?")
+				.setParameter(0, year).setParameter(1, level)
+			    .uniqueResult();
+		return batch;
 	}
 	
 }

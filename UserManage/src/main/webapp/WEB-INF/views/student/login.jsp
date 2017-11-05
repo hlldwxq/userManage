@@ -37,7 +37,7 @@
 						<div class="form-group">
 				            <label class="col-sm-2 control-label">学号：</label>
 				            <div class="col-sm-10">
-				            <input class="form-control" type="text" name="studentname"/>
+				            <input class="form-control" type="text" name="id"/>
 				            </div>
 			            </div> 
 				        <div class="form-group">

@@ -28,6 +28,7 @@
 			  	<th>项目状态</th>
 			  	<th>申请评分</th>
 			  	<th>结项评分</th>
+			  	<th>申请书</th>
 		  	</tr>
 			<c:if test="${projectList==null}">
 				<h2>没有项目</h2>
@@ -61,6 +62,7 @@
 						</form>
 					</c:if>
 					</td>
+					<td><a href="download/${project.projectId}/0">申请书下载</a></td>
 				</c:forEach>
 			</c:if>
 		</table>

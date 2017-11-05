@@ -14,7 +14,7 @@ public class TeacherServiceImpl implements TeacherService{
 	
 	@Override
 	public Teacher CorrectLogin(Teacher teacher) {
-		return teacherList.getByNameAndPassword(teacher);
+		return teacherList.getByIdAndPassword(teacher);
 	}
 
 	@Override

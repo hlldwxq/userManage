@@ -31,8 +31,13 @@ public class BatchServiceImpl implements BatchService{
 	}
 
 	@Override
-	public void nextState(int year, int type) {
-		batchList.updateState(year, type);
+	public void nextState(int year, int level) {
+		batchList.updateState(year, level);
+	}
+
+	@Override
+	public ProjectBatch getBatchByYearAndLevel(int year, int level) {
+		return batchList.getBatchByYearAndLevel(year,level);
 	}
 
 }

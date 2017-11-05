@@ -20,9 +20,6 @@
 						<li>
 							 <a href="projectApplication">项目申请</a>
 						</li>
-						<li>
-							 <a href="#">所有批次</a>
-						</li>
 						
 					</ul>
 					

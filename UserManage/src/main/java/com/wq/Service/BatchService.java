@@ -7,5 +7,6 @@ public interface BatchService {
 	List<ProjectBatch> listAllBatch();
 	void save(ProjectBatch batch);
 	ProjectBatch appliactionAllowed();
-	void nextState(int year,int type);
+	void nextState(int year,int level);
+	ProjectBatch getBatchByYearAndLevel(int year,int level);
 }

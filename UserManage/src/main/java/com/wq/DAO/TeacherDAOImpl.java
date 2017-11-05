@@ -1,14 +1,9 @@
 package com.wq.DAO;
-import java.util.HashMap;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-
-import com.wq.StudentProject;
 import com.wq.Teacher;
 
 @Repository
@@ -21,9 +16,9 @@ public class TeacherDAOImpl implements TeacherDAO{
 	}
 	
 	@Override
-	public Teacher getByNameAndPassword(Teacher t) {
-		Teacher teacher = (Teacher)this.currentSession().createQuery("from Teacher where teacherName = ? and password = ?")
-			    .setParameter(0,t.getTeacherName()).setParameter(1,t.getPassword()).uniqueResult();
+	public Teacher getByIdAndPassword(Teacher t) {
+		Teacher teacher = (Teacher)this.currentSession().createQuery("from Teacher where id = ? and password = ?")
+			    .setParameter(0,t.getId()).setParameter(1,t.getPassword()).uniqueResult();
         return teacher;
 	}
 

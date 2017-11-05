@@ -26,8 +26,8 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public List<StudentProject> listProjectByDateAndType(int year,int type) {
-		return projectList.listProjectByDateAndType(year,type);
+	public List<StudentProject> listProjectByDateAndLevel(int year,int level) {
+		return projectList.listProjectByDateAndLevel(year,level);
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public void nextState(int year, int type) {
-		projectList.nextState(year, type);
+	public void nextState(int year, int level) {
+		projectList.nextState(year, level);
 	}
 
 	@Override
@@ -52,8 +52,8 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public void failedPass(int year, int type) {
-		List<StudentProject> sp = projectList.listProjectByDateAndType(year, type);
+	public void failedPass(int year, int level) {
+		List<StudentProject> sp = projectList.listProjectByDateAndLevel(year, level);
 		for(StudentProject project:sp){
 			if(project.getProjectState()==1){
 			    projectList.failedPass(project.getProjectId());
@@ -79,6 +79,11 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public void updateSecondGrade(int secondGrade, int projectId) {
 		projectList.updateSecondGrade(secondGrade, projectId);
+	}
+
+	@Override
+	public StudentProject getProjectById(int projectId) {
+		return projectList.getProjectById(projectId);
 	}
 
 	

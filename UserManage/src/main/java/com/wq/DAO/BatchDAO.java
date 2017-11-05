@@ -7,5 +7,6 @@ public interface BatchDAO {
 	List<ProjectBatch> listAllBatch();
 	void save(ProjectBatch batch);
 	ProjectBatch appliactionAllowed();
-	void updateState(int year,int type);
+	void updateState(int year,int level);
+	ProjectBatch getBatchByYearAndLevel(int year,int level);
 }

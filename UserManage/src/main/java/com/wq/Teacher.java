@@ -22,8 +22,7 @@ public class Teacher {
     	this.teacherName = teacherName;
     }
     @Id
-    @Column(name="id",nullable=false,unique=true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //h  
+    @Column(name="id",nullable=false,unique=true) 
     public String getId(){
     	return id;
     }  

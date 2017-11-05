@@ -25,7 +25,7 @@
 		  	<th>更改</th>
 		  	</c:if>
 		  </tr>
-		  <c:if test="${projectList==null}">
+		  <c:if test="${batchList==null}">
 			<h2>没有批次</h2>
 		  </c:if>
 		  <c:if test="${batchList!=null}">
@@ -44,22 +44,6 @@
 		</div>
 		</div>
 	</div>
-	<!--  
-	<c:if test="${batchList==null}">
-		<h2>没有批次</h2>
-	</c:if>
-	<c:if test="${batchList!=null}">
-		<c:forEach items="${batchList}" var="batch">	
-			<p>批次年份：${batch.year} </p>
-			<p>批次阶段：${batch.state} </p>
-			<p>批次类型：${batch.level}  </p>
-			<c:if test="${sessionScope.teacher.power==1}">
-			<a href="nextState/${batch.year}/${batch.type}">下一阶段</a>
-			</c:if>
-			<br>
-		</c:forEach>
-	</c:if>
-	
-	<a href="index">返回</a>-->
+
 </body>
 </html>

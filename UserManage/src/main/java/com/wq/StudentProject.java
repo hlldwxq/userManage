@@ -32,13 +32,16 @@ public class StudentProject {
 	private String projectName;
 	private Integer projectTeacher;
 	private Integer projectLeading;
-	private Integer projectExpert;
+	private String projectExpert;
 	private Integer projectDate; 
 	private Integer projectState;
 	private Integer projectType;
 	private Integer firstGrade;
 	private Integer secondGrade;
 	private Integer projectLevel;
+	private String teacherName;
+	private String leadingName;
+	private String expertName;
 	
 	public StudentProject(){}
 	
@@ -108,11 +111,11 @@ public class StudentProject {
 	}
 	
 	@Column(name="projectExpert")
-	public Integer getProjectExpert(){
+	public String getProjectExpert(){
 		return projectExpert;
 	}
 	
-	public void setProjectExpert(Integer projectExpert){
+	public void setProjectExpert(String projectExpert){
 		this.projectExpert = projectExpert;
 	}
 	
@@ -141,5 +144,27 @@ public class StudentProject {
 	
 	public void setsecondGrade(Integer secondGrade){
 		this.secondGrade = secondGrade;
+	}
+	
+	public String getTeacherName(){
+		return teacherName;
+	}
+	
+	public void setTeacherName(String teacherName){
+		this.teacherName = teacherName;
+	}
+	public String getLeadingName(){
+		return leadingName;
+	}
+	
+	public void setLeadingName(String leadingName){
+		this.leadingName = leadingName;
+	}
+	public String getExpertName(){
+		return expertName;
+	}
+	
+	public void setExpertName(String expertName){
+		this.expertName = expertName;
 	}
 }

@@ -2,7 +2,13 @@ package com.wq.controller;
 
 import com.wq.*;
 import com.wq.Service.*;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -20,6 +28,7 @@ public class TeacherController {
 	@Autowired private TeacherService teacherService;
 	@Autowired private BatchService batchService;
 	@Autowired private ProjectService projectService;
+	@Autowired private ProjectFileService fileService;
 	
 	HttpSession session = null;
 	
@@ -68,11 +77,16 @@ public class TeacherController {
 		return "teacher/allBatch";
 	}
 	
-	@RequestMapping(value="nextState/{year}/{type}",method=RequestMethod.GET)
-	public String nextState(@PathVariable int year,@PathVariable int type,Model model){
-		batchService.nextState(year, type);
-		projectService.failedPass(year, type);
-		projectService.nextState(year, type);
+	@RequestMapping(value="nextState/{year}/{level}",method=RequestMethod.GET)
+	public String nextState(@PathVariable int year,@PathVariable int level,Model model){
+		batchService.nextState(year, level);
+		ProjectBatch b = batchService.getBatchByYearAndLevel(year, level);
+		if(b.getState()==2){
+			projectService.failedPass(year, level);
+		}
+		else{
+			projectService.nextState(year, level);
+		}
 		return "redirect:/teacher/allBatch";
 	}
 	
@@ -97,70 +111,56 @@ public class TeacherController {
 		model.addAttribute("projectList", sp);
 		return "teacher/assessor/myExamine";
 	}
-	
+	//申请评分
 	@RequestMapping(value="examine/{projectId}",method=RequestMethod.POST)
 	public String examineGrade(@PathVariable int projectId,HttpServletRequest request){
 		int firstGrade = Integer.parseInt(request.getParameter("grade"));
 		projectService.updateFirstGrade(firstGrade, projectId);
 		return "redirect:/teacher/examine";
 	}
-	
+	//结项评分
 	@RequestMapping(value="knot/{projectId}",method=RequestMethod.POST)
 	public String kontGrade(@PathVariable int projectId,HttpServletRequest request){
 		int secondGrade = Integer.parseInt(request.getParameter("grade"));
 		projectService.updateSecondGrade(secondGrade, projectId);
 		return "redirect:/teacher/examine";
 	}
-	
+	//查看不同阶段的项目
 	@RequestMapping(value="{state}",method=RequestMethod.GET)
 	public String findProject(@PathVariable int state,Model model){
 		List<StudentProject> spl = projectService.listProjectByStatus(state);
 		model.addAttribute("projectList", spl);
-		model.addAttribute("state",state);
 		if(state==StudentProject.WAIT_PASS){
 			List<Teacher> tl = teacherService.getExpert();
 			model.addAttribute("expert",tl);
 		}
 		return "teacher/checkProject";
 	}
-	
+	//分配审核老师
 	@RequestMapping(value="expert/{projectId}",method=RequestMethod.POST)
 	public String expert(@PathVariable int projectId,HttpServletRequest request){
 		String teacherId = request.getParameter("expert");
 		projectService.updateExpert(projectId, teacherId);
 		return "redirect:/teacher/"+StudentProject.WAIT_PASS;
 	}
-	
+	//管理员通过申请
 	@RequestMapping(value="projectPass/{id}",method=RequestMethod.GET)
 	public String passProject(@PathVariable int id,Model model){
 		projectService.nextState(id);
 		return "redirect:/teacher/"+StudentProject.WAIT_PASS;
 	}
-	
-//	//查看所有学生
-//	@RequestMapping(value="/allUsers",method=RequestMethod.GET)
-//	public String showAllUsers(Model model){
-//		List<User> u = userService.listAllUser();
-//		model.addAttribute("allusers",u);
-//		return "Teacher/allUsers";
-//	}
-//	//删除学生
-//	@RequestMapping(value="/delete/{userId}",method=RequestMethod.GET)
-//	public String deleteUser(@PathVariable Integer userId){
-//		userService.deleteById(userId);
-//		return "redirect:/Teacher/allUsers";
-//	}
-//	
-//	@RequestMapping(value="/find",method=RequestMethod.GET)
-//	public String find(){
-//		return "Teacher/findByName";
-//	}
-//	
-//	@RequestMapping(value="/find",method=RequestMethod.POST)
-//	public String findByName(HttpServletRequest request,Model model){
-//		User u = userService.getByName(request.getParameter("uname"));
-//		model.addAttribute("user",u);
-//		return "Teacher/find";
-//	}
+
+	@RequestMapping(value="download/{projectId}/{type}",method=RequestMethod.GET)
+	public ResponseEntity<byte[]> download(@PathVariable int projectId,@PathVariable int type) throws IOException{
+		String leftPath = "D:/GITRepository/file/";
+		ProjectFile f = fileService.listByProjectidAndType(projectId, "申请书").get(0);
+		System.out.println(leftPath+f.getFile());
+		File file = new File(leftPath+"/"+f.getFile());
+		HttpHeaders headers = new HttpHeaders();
+		String fileName = new String(f.getFile().getBytes("UTF-8"),"iso-8859-1");
+		headers.setContentDispositionFormData("attachment", fileName);
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers,HttpStatus.OK);
+	}
 	
 }

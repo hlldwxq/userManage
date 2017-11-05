@@ -17,9 +17,9 @@ public class StudentDAOImpl implements StudentDAO{
 	}
 	
 	@Override
-	public Student getByNameAndPassword(Student s) {
-		Student student = (Student)this.currentSession().createQuery("from Student where studentname = ? and studentpassword = ?")
-					    .setParameter(0,s.getstudentname()).setParameter(1,s.getstudentpassword()).uniqueResult();
+	public Student getByIdAndPassword(Student s) {
+		Student student = (Student)this.currentSession().createQuery("from Student where id = ? and studentpassword = ?")
+					    .setParameter(0,s.getId()).setParameter(1,s.getstudentpassword()).uniqueResult();
 		return student;
 	}
 
@@ -46,29 +46,5 @@ public class StudentDAOImpl implements StudentDAO{
 		return (Student)this.currentSession().createQuery("from Student where Studentname = ?")
 			       .setParameter(0, name).uniqueResult();
 	}
-	
-//	@Override
-//	public List<Student> listAllStudent() {
-//		@SuppressWarnings("unchecked")
-//		List<Student> ul = (List<Student>)this.currentSession().createCriteria(Student.class).list();
-//		return ul;
-//
-//	}
-//
-//	@Override
-//	public List<Student> listAllStudentById(String id) {
-//		String hql="from Student as Student where Student.id like '%"+id+"%'"; 
-//		@SuppressWarnings("unchecked")
-//		List<Student> Student = (List<Student>)this.currentSession().createQuery(hql).list();
-//	    return Student;
-//	}
-
-//	@Override
-//	public List<Student> listAllStudentByName(String name) {
-//		String hql="from Student as Student where Student.Studentname like '%"+name+"%'"; 
-//		@SuppressWarnings("unchecked")
-//		List<Student> Student = (List<Student>)this.currentSession().createQuery(hql).list();
-//		return Student;
-//	}
 
 }

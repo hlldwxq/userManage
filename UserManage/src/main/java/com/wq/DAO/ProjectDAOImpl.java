@@ -12,6 +12,7 @@ import com.wq.StudentProject;
 @Repository
 public class ProjectDAOImpl implements ProjectDAO{
 
+	StudentDAOImpl sd = new StudentDAOImpl();
 	@Resource private SessionFactory sessionFactory;
 
 	private Session currentSession(){
@@ -23,7 +24,10 @@ public class ProjectDAOImpl implements ProjectDAO{
 		String hql="from StudentProject where projectLeading = "+studentId; 
 		@SuppressWarnings("unchecked")
 		List<StudentProject> project = (List<StudentProject>)this.currentSession().createQuery(hql).list();
-	    return project;
+	    for(StudentProject s:project){
+	    	
+	    }
+		return project;
 	}
 
 	@Override
@@ -35,8 +39,8 @@ public class ProjectDAOImpl implements ProjectDAO{
 	}
 
 	@Override
-	public List<StudentProject> listProjectByDateAndType(int year,int type) {
-		String hql="from StudentProject where projectDate = "+year +" and projectType="+type; 
+	public List<StudentProject> listProjectByDateAndLevel(int year,int level) {
+		String hql="from StudentProject where projectDate = "+year +" and projectLevel="+level; 
 		@SuppressWarnings("unchecked")
 		List<StudentProject> project = (List<StudentProject>)this.currentSession().createQuery(hql).list();
 	    return project;
@@ -67,9 +71,9 @@ public class ProjectDAOImpl implements ProjectDAO{
 	}
 
 	@Override
-	public void nextState(int year, int type) {
-		this.currentSession().createQuery("update StudentProject set projectState = projectState+1 where projectDate = ? and projectType = ? and projectState != 0")
-		.setParameter(0, year).setParameter(1, type)
+	public void nextState(int year, int level) {
+		this.currentSession().createQuery("update StudentProject set projectState = projectState+1 where projectDate = ? and projectLevel = ? and projectState != 0")
+		.setParameter(0, year).setParameter(1, level)
 		.executeUpdate();
 	}
 
@@ -124,6 +128,14 @@ public class ProjectDAOImpl implements ProjectDAO{
 		.setParameter(0, secondGrade)
 		.setParameter(1,projectId)
 		.executeUpdate();
+	}
+
+	@Override
+	public StudentProject getProjectById(int projectId) {
+		String hql="from StudentProject where projectId = "+projectId; 
+		@SuppressWarnings("unchecked")
+		List<StudentProject> project = (List<StudentProject>)this.currentSession().createQuery(hql).list();
+	    return project.get(0);
 	}
 
 

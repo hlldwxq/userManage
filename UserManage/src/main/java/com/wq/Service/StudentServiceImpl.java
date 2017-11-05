@@ -12,7 +12,7 @@ public class StudentServiceImpl implements StudentService{
 
 	@Override
 	public boolean CorrectLogin(Student Student) {
-		return !(StudentList.getByNameAndPassword(Student)==null);
+		return !(StudentList.getByIdAndPassword(Student)==null);
 	}
 
 	@Override

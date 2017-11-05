@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
@@ -27,12 +28,10 @@
 							<li><a href="1">等待审批的项目</a></li>
 							<li><a href="0">所有项目</a></li>
 						</c:if>
-						<c:if test="${sessionScope.teacher.power!=1}">
-							<li><a href="myProject">负责项目</a></li>
-						</c:if>
 						<c:if test="${sessionScope.teacher.power==3}">
 							<li><a href="examine">待审核项目</a></li>
 						</c:if>
+						<li><a href="myProject">负责项目</a></li>
 						<li><a href="allBatch">显示所有批次</a></li>
 					</ul>
 					

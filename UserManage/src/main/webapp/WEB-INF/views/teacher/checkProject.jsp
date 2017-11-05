@@ -29,6 +29,7 @@
 		  	<th>结项评分</th>
 		  	<th>审核老师</th>
 		  	<th>审核</th>
+		  	<th>文件</th>
 		  </tr>
 		  <c:if test="${projectList==null}">
 			<h2>没有项目</h2>
@@ -45,25 +46,48 @@
 			  	<td>${project.projectState}</td>
 			  	<td>${project.firstGrade}</td>
 			  	<td>${project.secondGrade}</td>
-			  	<c:if test="${project.projectState==1}">
-				<c:if test="${project.projectExpert==null}">
-				    <td>
-					<form action="expert/${project.projectId}" method="post">             
-	                                                     分配审核老师：
-						<select name="expert">
-						<c:forEach items="${expert}" var="e">
-							<option value="${e.id}">${e.teacherName}</option>
-						</c:forEach>
-						</select>
-			            <input type="submit" value="确定"/>  
-			    	</form>
-			    	</td>
-				</c:if>
-				<c:if test="${project.projectExpert!=null}">
-				    <td>${project.projectExpert} </td>
-				</c:if>
-				<td><a href="projectPass/${project.projectId}"><button>审核通过</button></a></td>
+			  	<!-- 审核老师一栏 -->
+			  	<c:if test="${project.projectExpert==null}">
+			  		<c:if test="${project.projectState==1}">
+			  			<!-- 还未分配审核老师 -->
+					    <td>
+						<form action="expert/${project.projectId}" method="post">             
+		                                                     分配审核老师：
+							<select name="expert">
+							<c:forEach items="${expert}" var="e">
+								<option value="${e.id}">${e.teacherName}</option>
+							</c:forEach>
+							</select>
+				            <input type="submit" value="确定"/>  
+				    	</form>
+				    	</td>
+					</c:if>
+					<!-- 还未分配审核老师 ，但是项目已经不需要审核老师了，比如未通过-->
+					<c:if test="${project.projectState!=1}">
+						<td></td>
+					</c:if>
 			    </c:if>
+			    <!-- 分配了审核老师 -->
+			    <c:if test="${project.projectExpert!=null}">
+				    <td>${project.projectExpert}</td>
+				</c:if>
+				
+				<!-- 审核一栏 -->
+				<c:if test="${project.projectState==1}">
+					<!-- 需要评分但是没有评分 -->
+					<c:if test="${project.projectState==1&&project.firstGrade==null}">
+						<td><button>未评分</button></td>
+					</c:if>
+					<!-- 评分完成需要管理员通过 -->
+					<c:if test="${project.projectState==1&&project.firstGrade!=null}">
+						<td><a href="projectPass/${project.projectId}"><button>通过</button></a></td>
+					</c:if>
+				</c:if>
+				<!-- 不需要通过，已通过或未通过 -->
+				<c:if test="${project.projectState!=1}">
+					<td></td>
+				</c:if>
+				<td><a href="download/${project.projectId}/0">申请书下载</a></td>
 			 </tr>
 			 </c:forEach>
 		</c:if>
@@ -71,36 +95,5 @@
 		</div>
 		</div>
 	</div>
-	<!-- 
-	<c:forEach items="${projectList}" var="project">	
-		<p>项目名称：${project.projectName} </p>
-		<p>项目指导老师：${project.projectTeacher} </p>
-		<p>项目负责人：${project.projectLeading}  </p>
-		<p>项目年份：${project.projectDate} </p>
-		<p>项目状态：${project.projectState} </p>
-		<p>项目类型：${project.projectType} </p>
-		<c:if test="${project.projectState>1}">
-			<p>审核老师：${project.projectExpert} </p>
-		</c:if>
-		<p>审核得分：${project.firstGrade} </p>
-		<c:if test="${project.projectState==1}">
-			<c:if test="${project.projectExpert==null}">
-				<form action="expert/${project.projectId}" method="post">             
-                                                     分配审核老师：
-					<select name="expert">
-					<c:forEach items="${expert}" var="e">
-						<option value="${e.id}">${e.teacherName}</option>
-					</c:forEach>
-					</select>
-		            <input type="submit" value="确定"/>  
-		    	</form>
-			</c:if>
-			<c:if test="${project.projectExpert!=null}">
-			    <p>审核老师：${project.projectExpert} </p>
-			</c:if>
-			<a href="projectPass/${project.projectId}"><button>审核通过</button></a>
-		</c:if>
-		<br>
-	</c:forEach>-->
 </body>
 </html>

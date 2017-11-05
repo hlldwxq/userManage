@@ -1,23 +1,20 @@
 package com.wq.controller;
 
 
-import com.wq.ProjectBatch;
-import com.wq.StudentProject;
-import com.wq.Teacher;
-import com.wq.Student;
-import com.wq.Service.BatchService;
-import com.wq.Service.ProjectService;
-import com.wq.Service.StudentService;
-import com.wq.Service.TeacherService;
+import com.wq.*;
+import com.wq.Service.*;
 
+import java.io.File;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping(value="/student")
@@ -26,6 +23,7 @@ public class StudentController {
 	@Autowired private TeacherService teacherService;
 	@Autowired private ProjectService projectService;
 	@Autowired private BatchService batchService;
+	@Autowired private ProjectFileService fileService;
 	
 	HttpSession session = null;
 	
@@ -58,7 +56,7 @@ public class StudentController {
 		}else{
 			//有则存在
 			session = request.getSession();
-			session.setAttribute("student", studentService.getByName(s.getstudentname()));
+			session.setAttribute("student", studentService.getById(s.getId()));
 			return "redirect:/student/index";
 		}	
 	}
@@ -109,8 +107,15 @@ public class StudentController {
 	}
 	
 	@RequestMapping(value="/projectApplication",method=RequestMethod.POST)
-	public String processProjectAppliaction(StudentProject studentProject,HttpServletRequest request){
+	public String processProjectAppliaction(StudentProject studentProject,MultipartFile reqisition,HttpServletRequest request)throws Exception{
 		projectService.projectApplication(studentProject);
+		
+		String filename = reqisition.getOriginalFilename();
+		ProjectFile f = new ProjectFile(filename,studentProject.getProjectId(),"申请书");
+		fileService.save(f);
+		String leftPath = "D:/GITRepository/file";  //************目录************//
+		File file = new File(leftPath,filename);
+		reqisition.transferTo(file);
 		return "redirect:/student/myProject";
 	}
 	
@@ -122,31 +127,5 @@ public class StudentController {
 		return "student/myProject";
 	}
 	
-//	@RequestMapping(value="/ajaxfind")
-//	public void ajaxFind(HttpServletRequest request,HttpServletResponse response){
-//		JSONObject json=new JSONObject();		
-//		String keyWord = request.getParameter("keyword");
-//		List<Student> list = StudentService.listStudentBySearch(keyWord);
-//		for(int i = 0;i < list.size();i++){
-//			json.put(list.get(i).getId(),list.get(i).getstudentname());
-//		}
-//		
-//		PrintWriter out;
-//		try {
-//			out = response.getWriter();
-//			out.print(json);
-//	        out.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}	
-//	}
-	//搜索其他用户
-//	@RequestMapping(value="/find",method=RequestMethod.POST)
-//	public String redirectStudentFind(Model model,HttpServletRequest request){
-//		String keyWord = request.getParameter("t");
-//		List<Student> list = studentService.listStudentBySearch(keyWord);
-//		model.addAttribute("list", list);
-//		return "Student/find";
-//	}
 	
 }
