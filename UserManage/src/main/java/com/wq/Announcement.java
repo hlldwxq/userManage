@@ -19,7 +19,6 @@ public class Announcement {
     
     public Announcement(){  	
     }
-
     @Id
     @Column(name="id",nullable=false,unique=true)
     @GeneratedValue(strategy = GenerationType.IDENTITY) //h  
