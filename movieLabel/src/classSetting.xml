@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 添加格式
+<father name="index">
+	 从上到下逐层包含
+		视图控制器
+		<children name="controller"></children>
+		服务接口
+		<children name="service"></children>
+		数据库接口及实现类
+		<children name="dao"></children>
+		对象实体
+		<children name="entity"></children>
+</father>-->
+<grandfather name="com.znbq">
+	<father name="index">
+	<!-- 从上到下逐层包含 -->
+		<!--视图控制器-->
+		<children name="controller">
+			<class name="indexController">
+				主控制器，拦截主页，登陆，登出，注册
+			</class>
+		</children>
+		<!--服务接口-->
+		<children name="service">
+			<class name="indexService">
+				登陆登出注册服务
+			</class>
+		</children>
+		<!--数据库接口及实现类-->
+		<children name="dao">
+			<class name="UserInfoDAO">都是查一个用户表，索性登陆注册在一块</class>
+		</children>
+		<!--对象实体-->
+		<children name="entity">
+			<class name="loginFrom">登陆表单实体</class>
+			<class name="registerFrom">注册表单实体</class>
+			<class name="searchResult">搜索结果，用于搜索功能</class>
+			<class name="userinfo">用户信息存储，取出，或者是存储操作记录</class>
+		</children>
+	</father>
+	<father name="news">
+		新闻集合编排	
+		节目播出形式分析指导
+		花絮精彩片段生成
+		新闻素材筛选	
+		用户舆情分析	
+		<children name="controller"></children>
+		<children name="service"></children>
+		<children name="dao"></children>
+		<children name="entity"></children>
+	</father>
+	<father name="movie">
+		电影推荐
+		剧本筛选
+		投资决策
+		主创推荐
+		题材推荐
+		预告拍摄
+		<children name="controller"></children>
+		<children name="service"></children>
+		<children name="dao"></children>
+		<children name="entity"></children>
+	</father>
+	<father name="entertainment">
+		嘉宾与主题推荐
+		节目档期安排	
+		节目内容安排	
+		用户信息参考	
+		广告商选择
+		<children name="controller"></children>
+		<children name="service"></children>
+		<children name="dao"></children>
+		<children name="entity"></children>
+	</father>
+	<father name="tv">
+		<children name="controller"></children>
+		<children name="service"></children>
+		<children name="dao"></children>
+		<children name="entity"></children>
+	</father>
+	<father name="feature">
+		<children name="controller"></children>
+		<children name="service"></children>
+		<children name="dao"></children>
+		<children name="entity"></children>
+	</father>
+</grandfather>
+<information date=2017.5.25 author="徐晓淳" content="">
+	徐晓淳：我这边用hibernate映射实体访问数据库好像还有点问题，我再测试一会，找解决的办法，临时的替代办法就是老实写sql语句，用sql访问单个列都可以
+	大家先把controller层的内容写了把，把页面全部连上，把html中的nav标签替换    <%@include file="../frame/header.jsp" %>
+	方式模仿news下的news_arrange.jsp,html改为jsp时都不内容从现有的复制，UTF-8一定要大写。
+	打开eclipse，选择一个空文件夹作为目录，然后在标题栏 文件 点打开项目 把项目导进去就行，然后右键项目名，选择在服务器上运行。
+</information>
+<information date=2017.5.27 author="徐晓淳">
+	徐晓淳：解决了无法映射实体的问题，因为拼错了单词，请注意单词拼写，配置项目流程：先将另外的lib文件拷贝导tomcat目录下的lib文件夹下，然后打开项目，
+	配置好eclipse的tomcat，把mysql服务打开，运行即可。先往数据库中执行moviedb.sql的内容，运行TestSSH.java测试，输出正常则配置成功
+</information>
+<property name=新闻模块 author=樊录钰>
+
+	@date 2017.5.30
+	将所有的静态页面改为jsp页面,加上header和修改请求路径，整理代码变得规范
+	
+	<!-- ----------------------------------------- -->
+	@date 2017.5.31
+	根据新闻页的数据可视化内容,新建了几张表，具体表结构如下:
+	news_labelcollection:新闻集合编排部分的标签集合部分的新闻文本数据
+	news_areafeature:用于新闻集合编排部分的地域特色新闻 主要保存对应的数值和不同特色的新闻文本信息，字段名代表具体作用或见字段注释
+	news_areasearchmark:用于新闻集合编排部分的搜索指数地图，保存不同省的搜索指数，字段名代表具体作用或见字段注释
+	news_audiencerating:用于节目播出形式指导的收视率部分,记录某一天具体的某一个频道在不同地区的收视率，根据具体的数据可以做到动态增加频道或城市
+	news_hottopic:记录不同时间段内的不同的主题下的不同标签热度，可以根据某一个时间段内的不同主题和标签动态增添 字段名代表具体作用或见字段注释
+	news_sentiment:用户舆情页的数据表，包括年龄分布，性别分布等等信息 具体字段名代表具体作用或见字段注释
+	
+	<!-- ----------------------------------------- -->
+	@date 2017.6.1~2017.6.2
+	连接数据库,针对新闻模块MVC的实现
+	为了达到可见的效果,录入假数据,展示效果
+	相关测试和代码调整
+</property>
+<information date=2017.6.3 author="徐晓淳">
+	这两天完成了投资决策模块，数据库为假数据
+</information>
+

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户收视习惯</title>
+</head>
+<body>
+<div id="ageRadarContainer" style="width: 100%; height: 500px"></div>
+<script type="text/javascript" src="../public/js/echarts.js"></script>
+<script type="text/javascript">
+    //TODO 获取数据
+    var data=[];
+    //TODO 获取数据
+    var ageRadarChart=echarts.init(document.getElementById("ageRadarContainer"));
+    ageRadaroption = {
+        /*title: {
+            text: '用户年龄分布雷达图',
+            x:'left'
+        },
+        tooltip: {
+            trigger:'item'
+        },*/
+        legend: {
+            data: ['用户年龄分布(单位:%)']
+        },
+        radar: {
+            indicator: [
+                { name: '0~15岁', max: 100},
+                { name: '16~25岁', max: 100},
+                { name: '26~35岁', max: 100},
+                { name: '36~45岁', max: 100},
+                { name: '45岁以上', max: 100}
+            ],
+            axisTick:{
+                show:true
+            },
+            axisLabel:{
+                show:true
+            }
+        },
+        series: [
+            {
+                name: '用户年龄分布(单位:%)',
+                type: 'radar',
+                areaStyle: {normal: {}},
+                data : [
+                    {
+                        value : [40,20,10,30,50],
+                        name: '各年龄阶段所占百分比'
+                    }
+                ]
+            }],
+        animationDuration:50
+    };
+    window.onresize=ageRadarChart.resize;
+    ageRadarChart.setOption(ageRadaroption);
+</script>
+</body>
+</html>

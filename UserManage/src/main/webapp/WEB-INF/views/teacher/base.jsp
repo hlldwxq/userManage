@@ -24,6 +24,7 @@
 							 <a href="index">首页</a>
 						</li>
 						<c:if test="${sessionScope.teacher.power==1}">
+							<li><a href="newAnnouncement">新增公告</a></li>
 							<li><a href="newBatch">创建新批次</a></li>
 							<li><a href="1">等待审批的项目</a></li>
 							<li><a href="0">所有项目</a></li>

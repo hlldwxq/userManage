@@ -12,13 +12,13 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li>
-							 <a href="index">首页</a>
+							 <a href="/UserManage/student/index">首页</a>
 						</li>
 						<li>
-							 <a href="myProject">我的项目</a>
+							 <a href="/UserManage/student/myProject">我的项目</a>
 						</li>
 						<li>
-							 <a href="projectApplication">项目申请</a>
+							 <a href="/UserManage/student/projectApplication">项目申请</a>
 						</li>
 						
 					</ul>
@@ -28,7 +28,7 @@
 							 <a>${sessionScope.student.studentname}</a>
 						</li>
 						<li>
-							<a href="logout">退出</a>
+							<a href="/UserManage/student/logout">退出</a>
 						</li>
 					</ul>
 				</div>

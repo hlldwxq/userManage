@@ -26,7 +26,7 @@ public class BatchServiceImpl implements BatchService{
 	}
 
 	@Override
-	public ProjectBatch appliactionAllowed() {
+	public List<ProjectBatch> appliactionAllowed() {
 		return batchList.appliactionAllowed();
 	}
 

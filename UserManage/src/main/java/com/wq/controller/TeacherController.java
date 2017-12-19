@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 @Controller
@@ -28,16 +29,17 @@ public class TeacherController {
 	@Autowired private TeacherService teacherService;
 	@Autowired private BatchService batchService;
 	@Autowired private ProjectService projectService;
-	@Autowired private ProjectFileService fileService;
-	
+	@Autowired private AnnouncementService accouncementService;
 	HttpSession session = null;
 	
 	//主页
 	@RequestMapping(value="/index",method=RequestMethod.GET)
-	public String TeacherIndex(){
+	public String TeacherIndex(Model model){
 		if(session == null || session.getAttribute("teacher")==null){
 			return "redirect:/teacher/login";
 		}
+		List<Announcement> announcementList = accouncementService.listAllAnnouncement();
+		model.addAttribute("announcementList", announcementList);
 		return "teacher/index";
 	}
 	
@@ -81,8 +83,12 @@ public class TeacherController {
 	public String nextState(@PathVariable int year,@PathVariable int level,Model model){
 		batchService.nextState(year, level);
 		ProjectBatch b = batchService.getBatchByYearAndLevel(year, level);
+		System.out.println(b.getState()+"---------------------");
 		if(b.getState()==2){
 			projectService.failedPass(year, level);
+		}
+		else if(b.getState()>4){
+			projectService.failedKont(year, level);
 		}
 		else{
 			projectService.nextState(year, level);
@@ -114,16 +120,24 @@ public class TeacherController {
 	//申请评分
 	@RequestMapping(value="examine/{projectId}",method=RequestMethod.POST)
 	public String examineGrade(@PathVariable int projectId,HttpServletRequest request){
+		Teacher t = (Teacher)session.getAttribute("teacher");
 		int firstGrade = Integer.parseInt(request.getParameter("grade"));
-		projectService.updateFirstGrade(firstGrade, projectId);
+		projectService.updateFirstGrade(firstGrade, projectId ,t.getId());
 		return "redirect:/teacher/examine";
 	}
 	//结项评分
 	@RequestMapping(value="knot/{projectId}",method=RequestMethod.POST)
 	public String kontGrade(@PathVariable int projectId,HttpServletRequest request){
+		Teacher t = (Teacher)session.getAttribute("teacher");
 		int secondGrade = Integer.parseInt(request.getParameter("grade"));
-		projectService.updateSecondGrade(secondGrade, projectId);
+		projectService.updateSecondGrade(secondGrade, projectId,t.getId());
 		return "redirect:/teacher/examine";
+	}
+	//管理员通过结项
+	@RequestMapping(value="knot/{projectId}",method=RequestMethod.GET)
+	public String kont(@PathVariable int projectId,HttpServletRequest request){
+		projectService.nextState(projectId);
+		return "redirect:/teacher/0";
 	}
 	//查看不同阶段的项目
 	@RequestMapping(value="{state}",method=RequestMethod.GET)
@@ -139,8 +153,15 @@ public class TeacherController {
 	//分配审核老师
 	@RequestMapping(value="expert/{projectId}",method=RequestMethod.POST)
 	public String expert(@PathVariable int projectId,HttpServletRequest request){
-		String teacherId = request.getParameter("expert");
-		projectService.updateExpert(projectId, teacherId);
+		//只有一个，只有两个，有重复
+		String teacherId1 = request.getParameter("expert1");
+		String teacherId2 = request.getParameter("expert2");
+		String teacherId3 = request.getParameter("expert3");
+		//只有一个
+		if(teacherId1!=""&&teacherId2!=""&&teacherId3!=""){
+			projectService.updateExperts(projectId, teacherId1, teacherId2, teacherId3);
+		}
+		//只有两个
 		return "redirect:/teacher/"+StudentProject.WAIT_PASS;
 	}
 	//管理员通过申请
@@ -150,17 +171,28 @@ public class TeacherController {
 		return "redirect:/teacher/"+StudentProject.WAIT_PASS;
 	}
 
-	@RequestMapping(value="download/{projectId}/{type}",method=RequestMethod.GET)
-	public ResponseEntity<byte[]> download(@PathVariable int projectId,@PathVariable int type) throws IOException{
-		String leftPath = "D:/GITRepository/file/";
-		ProjectFile f = fileService.listByProjectidAndType(projectId, "申请书").get(0);
-		System.out.println(leftPath+f.getFile());
-		File file = new File(leftPath+"/"+f.getFile());
-		HttpHeaders headers = new HttpHeaders();
-		String fileName = new String(f.getFile().getBytes("UTF-8"),"iso-8859-1");
-		headers.setContentDispositionFormData("attachment", fileName);
-		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers,HttpStatus.OK);
+	//公告
+	@RequestMapping(value="newAnnouncement",method=RequestMethod.GET)
+	public String newAnnouncement(){
+		return "teacher/administrator/newAnnouncement";
+	}
+	
+	@RequestMapping(value="newAnnouncement",method=RequestMethod.POST)
+	public String processNewAnnouncement(Announcement accouncement){
+		Teacher t = (Teacher)session.getAttribute("teacher");
+		java.util.Date date=new java.util.Date();
+		java.sql.Date sqldate=new java.sql.Date(date.getTime());
+		accouncement.setCreateDate(sqldate);
+		accouncement.setAnnouncer(t.getTeacherName());
+		accouncementService.save(accouncement);
+		return "redirect:/teacher/index";
+	}
+	
+	//删除公告
+	@RequestMapping(value="deleteAnnounce/{announceId}",method=RequestMethod.GET)
+	public String deleteAnnounce(@PathVariable int announceId){
+		accouncementService.deleteById(announceId);
+		return "redirect:/teacher/index";
 	}
 	
 }

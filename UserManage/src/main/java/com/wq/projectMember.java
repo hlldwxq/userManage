@@ -11,9 +11,15 @@ import javax.persistence.Table;
 @Table(name="projectmember")
 public class projectMember {
 	private int projectId;
-	private int projectMemberId;
+	private String projectMemberId;
 	private int id;
-	
+	public projectMember(){
+		
+	}
+	public projectMember(int projectId,String memberId){
+		this.projectId = projectId;
+		this.projectMemberId = memberId;
+	}
 	@Id
     @Column(name="id",nullable=false,unique=true)
     @GeneratedValue(strategy = GenerationType.IDENTITY) //h  
@@ -32,10 +38,10 @@ public class projectMember {
 		this.projectId = projectId;
 	}
 	@Column(name="projectMemberId")
-	public int getProjectMemberId(){
+	public String getProjectMemberId(){
 		return this.projectMemberId;
 	}
-	public void setProjectMemberId(int projectMemberId){
+	public void setProjectMemberId(String projectMemberId){
 		this.projectMemberId = projectMemberId;
 	}
 }

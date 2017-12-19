@@ -32,7 +32,9 @@
 				<label class="col-sm-2 control-label">年份：</label>
 			    <div class="col-sm-10">
 				<select class="form-control" name="projectDate" readonly="readonly">
-					<option value="${batch.year}">${batch.year}</option>
+					<c:forEach items="${batch}" var="b">
+						<option value="${b.year}">${b.year}</option>
+					</c:forEach>
 		    	</select>
 		    	</div>
 	    	</div>
@@ -62,7 +64,9 @@
 				<label class="col-sm-2 control-label">项目级别：</label>
 				<div class="col-sm-10">
 				<select name="projectLevel" class="form-control" readonly="readonly">
-					<option value="${batch.level}">${batch.level} </option>
+					<c:forEach items="${batch}" var="b">
+						<option value="${b.level}">${b.level}</option>
+					</c:forEach>
 		    	</select>
 		    	<span>1:国家级</span><br><span>2:北京市级</span>
 	    		</div>

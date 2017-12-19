@@ -35,7 +35,12 @@
 				<td>${batch.state}</td>
 				<td>${batch.level} </td>
 				<c:if test="${sessionScope.teacher.power==1}">
-				<td><a href="nextState/${batch.year}/${batch.level}">下一阶段</a></td>
+				    <c:if test="${batch.state<5}">
+						<td><a href="nextState/${batch.year}/${batch.level}">下一阶段</a></td>
+					</c:if>
+					<c:if test="${batch.state>=5}">
+					<td></td>
+					</c:if>
 				</c:if>
 			  </tr>
 			 </c:forEach>

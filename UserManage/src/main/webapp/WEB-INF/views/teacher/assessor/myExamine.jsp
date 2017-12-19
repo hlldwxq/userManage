@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
+<%@page import="com.wq.Teacher"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -28,7 +29,7 @@
 			  	<th>项目状态</th>
 			  	<th>申请评分</th>
 			  	<th>结项评分</th>
-			  	<th>申请书</th>
+			  	<th>详情</th>
 		  	</tr>
 			<c:if test="${projectList==null}">
 				<h2>没有项目</h2>
@@ -43,26 +44,82 @@
 					<td>${project.projectLevel}  </td>
 					<td>${project.projectType}  </td>
 					<td>${project.projectState}  </td>
-					<c:if test="${project.projectState==1 && project.firstGrade==null}">
+					<c:if test="${project.projectState==1}">
 					<td>
+					    <c:if test="${project.firstTeacher!=null}">
+					    <c:set var="name" value="${project.firstTeacher}" scope="session"></c:set>
+					         <%
+					    	  String name = (String)session.getAttribute("name");
+					    	  String[] names = name.split(" ");
+					    	  int j=-1;
+					    	  Teacher t = (Teacher)session.getAttribute("teacher");
+						    	for(int i=0;i<names.length;i++){
+						    		
+						    		if(names[i].equals(t.getId())){
+						    			j = i;
+						    			break;
+						    		}
+						    	}
+						      if(j<0){%>
+						    	<form action="examine/${project.projectId}" method="post">
+									申请评分：<input type="text" name="grade" />
+									<input type="submit" value="确定">
+								</form>
+						      <%}else{%>
+						    	 ${(project.firstGrade1+project.firstGrade2+project.firstGrade3)/3}
+						      <%}
+					    	%>
+					    </c:if>
+					    <c:if test="${project.firstTeacher==null}">
 						<form action="examine/${project.projectId}" method="post">
 							申请评分：<input type="text" name="grade" />
 							<input type="submit" value="确定">
 						</form>
+						</c:if>
 					</td>
 					</c:if>
-					<c:if test="${project.projectState==1 && project.firstGrade!=null}">
-						<td>${project.firstGrade}</td>
+					<c:if test="${project.projectState!=1}">
+						<td>${(project.firstGrade1+project.firstGrade2+project.firstGrade3)/3}</td>
 					</c:if>
+					<c:if test="${project.projectState==4}">
 					<td>
-					<c:if test="${project.projectState==4 && project.secondGrade==null}">
-						<form action="knot/${project.projectId}" method="post">
-							结项评分：<input type="text" name="grade" />
-							<input type="submit" value="确定">
-						</form>
-					</c:if>
+					    <c:if test="${project.secondTeacher!=null}">
+					    <c:set var="name" value="${project.secondTeacher}" scope="session"></c:set>
+					    	<%
+					    	  String name = (String)session.getAttribute("name");
+					    	  String[] names = name.split(" ");
+					    	  int j=-1;
+					    	  Teacher t = (Teacher)session.getAttribute("teacher");
+						    	for(int i=0;i<names.length;i++){
+						    		if(names[i].equals(t.getId())){
+						    			j = i;
+						    			break;
+						    		}
+						    	}
+						      if(j<0){
+						     %>
+						    	<form action="knot/${project.projectId}" method="post">
+									结项评分：<input type="text" name="grade" />
+									<input type="submit" value="确定">
+								</form>
+						      <%}else{%>
+						    	 ${(project.secondGrade1+project.secondGrade2+project.secondGrade3)/3}
+						      <%}
+					    	%>
+					    </c:if>
+					    <c:if test="${project.secondTeacher==null}">
+					    	<form action="knot/${project.projectId}" method="post">
+									结项评分：<input type="text" name="grade" />
+									<input type="submit" value="确定">
+								</form>
+					    </c:if>
 					</td>
-					<td><a href="download/${project.projectId}/0">申请书下载</a></td>
+					</c:if>
+					<c:if test="${project.projectState!=4}">
+						<td> ${(project.secondGrade1+project.secondGrade2+project.secondGrade3)/3}</td>
+					</c:if>
+					
+					<td><a>详情</a></td>
 				</c:forEach>
 			</c:if>
 		</table>

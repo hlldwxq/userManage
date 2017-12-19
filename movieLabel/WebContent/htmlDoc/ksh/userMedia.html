@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户舆情分布</title>
+</head>
+<body>
+<div id="mediaContainer" style="width: 50%;height: 300px"></div>
+<script type="text/javascript" src="../public/js/echarts.js"></script>
+<script type="text/javascript">
+    var mediaPieChart=echarts.init(document.getElementById("mediaContainer"));
+    //TODO ====================================
+    //TODO 获取真实数据
+    //TODO ====================================
+    var data=[
+        {value:300, name:'正常', selected:true},
+        {value:300, name:'中性', selected:true},
+        {value:50, name:'负面'}
+    ];
+    var option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'right',
+            data:['正常','中性','负面']
+        },
+        series: [
+            {
+                name:'用户舆情分布',
+                type:'pie',
+                selectedMode: 'multiple',
+                radius: [0, '80%'],
+
+                label: {
+                    normal: {
+                        position: 'outer'
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: true
+                    }
+                },
+                data:data
+            }
+        ]
+    };
+    mediaPieChart.setOption(option);
+</script>
+</body>
+</html>

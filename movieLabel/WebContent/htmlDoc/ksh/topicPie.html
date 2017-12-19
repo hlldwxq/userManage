@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>收视特色主题分布</title>
+</head>
+<body>
+<div id="areaContainer" style="width: 50%;height: 300px"></div>
+<script type="text/javascript" src="../public/js/echarts.js"></script>
+<script type="text/javascript">
+    var areaPieChart=echarts.init(document.getElementById("areaContainer"));
+    //TODO ====================================
+    //TODO 获取真实数据
+    //TODO ====================================
+    var areadata=[
+        {value:300, name:'风土人情', selected:true},
+        {value:300, name:'旅游文化', selected:true},
+        {value:50, name:'民族特色',selected:true},
+        {value:50, name:'都市风情'}
+    ];
+    var areaOption = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'right',
+            data:['风土人情','旅游文化','民族特色','都市风情']
+        },
+        series: [
+            {
+                name:'特色主题分布',
+                type:'pie',
+                selectedMode: 'multiple',
+                radius: [0, '80%'],
+
+                label: {
+                    normal: {
+                        position: 'outer'
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: true
+                    }
+                },
+                data:areadata
+            },
+        ]
+    };
+    areaPieChart.setOption(areaOption);
+</script>
+</body>
+</html>

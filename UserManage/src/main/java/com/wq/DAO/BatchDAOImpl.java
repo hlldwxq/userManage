@@ -25,15 +25,12 @@ public class BatchDAOImpl implements BatchDAO{
 
 	@Override
 	public void save(ProjectBatch batch) {
-		
 		this.currentSession().save(batch);
-		
 	}
 
 	@Override
-	public ProjectBatch appliactionAllowed() {
-		ProjectBatch batch = (ProjectBatch)this.currentSession().createQuery("from ProjectBatch where state = 1")
-			    .uniqueResult();
+	public List<ProjectBatch> appliactionAllowed() {
+		List<ProjectBatch> batch = (List<ProjectBatch>)this.currentSession().createQuery("from ProjectBatch where state = 1").list();
 		return batch;
 	}
 

@@ -16,7 +16,7 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public Student getById(Integer id) {
+	public Student getById(String id) {
 		return StudentList.getById(id);
 	}
 
@@ -34,24 +34,4 @@ public class StudentServiceImpl implements StudentService{
 	public Student getByName(String name) {
 		return StudentList.getByName(name);
 	}
-	
-//	
-//	@Override
-//	public List<Student> listAllStudent() {
-//		return StudentList.listAllStudent();
-//	}
-//
-//	@Override
-//	public List<Student> listStudentBySearch(String keyWord) {
-//		List<Student> list = StudentList.listAllStudentById(keyWord);
-//		List<Student> listByName = StudentList.listAllStudentByName(keyWord);
-//		list.addAll(listByName);
-//		return list;
-//	}
-//
-//	@Override
-//	public void deleteById(Integer id) {
-//		StudentList.deleteById(id);
-//	}
-
 }

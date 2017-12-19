@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>热点话题展示</title>
+</head>
+<body>
+<div id="canvasContainer" style="width: 100%;height: 400px"></div>
+<script type="text/javascript" src="../public/js/echarts.js"></script>
+<script type="text/javascript">
+    var hotTagChart=echarts.init(document.getElementById("canvasContainer"));
+    var legendData=['国庆','扶贫','长征','生态农业','城市建设','创业'];
+    var xAxisData=['游客','旅游','黄金周','张家界','商岳','扶贫','脱贫','贫困户','农村','红军','长征','抗日','社会主义','袁农平','高产','茶叶种植','水稻','产业','工程','工业','环境','地铁','就业','企业','创业','培训']
+    var value1=[23,34,65,24,67,,,,,,,,,,,,,,,,,,,,,,];
+    var value2=[,,,,,34,46,78,,,,,,,,,,,,,,,,,,,];
+    var value3=[,,,,,,,,09,23,53,75,,,,,,,,,,,,,,,];
+    var value4=[,,,,,,,,,,,,68,97,45,48,,,,,,,,,,,];
+    var value5=[,,,,,,,,,,,,,,,,26,63,85,96,21,,,,,,];
+    var value6=[,,,,,,,,,,,,,,,,,,,,,43,46,89,90,89];
+    var option={
+        legend:{
+            data:legendData
+        },
+        tooltip : {
+            trigger: 'item',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        toolbox:{
+            show:true,
+            feature:{
+                saveAsImage:{}
+            }
+        },
+        xAxis:[
+            {
+                type:'category',
+                data:xAxisData,
+                axisLabel:{
+                    interval:0
+                }
+            }
+        ],
+        yAxis:[
+            {
+                type:'value'
+            }
+        ],
+        series:[
+            {
+                name:legendData[0],
+                type:'bar',
+                data:value1
+            },
+            {
+                name:legendData[1],
+                type:'bar',
+                data:value2
+            },
+            {
+                name:legendData[2],
+                type:'bar',
+                data:value3
+            },
+            {
+                name:legendData[3],
+                type:'bar',
+                data:value4
+            },
+            {
+                name:legendData[4],
+                type:'bar',
+                data:value5
+            },
+            {
+                name:legendData[5],
+                type:'bar',
+                data:value6
+            }
+        ]
+    }
+    hotTagChart.setOption(option);
+    window.onresize=hotTagChart.resize
+</script>
+</body>
+</html>

@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
+<%@page import="com.wq.StudentProject"%>
+<%@page import="com.wq.ProjectBatch"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -38,13 +40,49 @@
 			  	<td>${project.projectName}</td>
 			  	<td>${project.teacherName}</td>
 			  	<td>${project.leadingName}</td>
-			  	<td>${project.projectLevel}</td>
-			  	<td>${project.projectType}</td>
-			  	<td>${project.projectState}</td>
-			  	<td>${project.expertName}</td>
-			  	<td>${project.firstGrade}</td>
-			  	<td>${project.secondGrade}</td>
-			  	<td>还没写</td>
+			  	<td>
+			  		<c:if test="${project.projectLevel==0}">
+			  			国家级
+			  	    </c:if>
+			  	    <c:if test="${project.projectLevel==1}">
+			  			北京市级
+			  	    </c:if>
+			  	</td>
+			  	<td>
+			  		<c:if test="${project.projectType==0}">
+			  			创新项目
+			  	    </c:if>
+			  	    <c:if test="${project.projectType==1}">
+			  			创业项目
+			  	    </c:if>
+			  	</td>
+			  	<td>
+			  		<c:if test="${project.projectState==-1}">
+			  			结项失败
+			  	    </c:if>
+			  	    <c:if test="${project.projectState==0}">
+			  			申请失败
+			  	    </c:if>
+			  	    <c:if test="${project.projectState==1}">
+			  			申请中
+			  	    </c:if>
+			  	    <c:if test="${project.projectState==2}">
+			  			申请完成
+			  	    </c:if>
+			  	    <c:if test="${project.projectState==3}">
+			  			项目中期
+			  	    </c:if>
+			  	    <c:if test="${project.projectState==4}">
+			  			准备结项
+			  	    </c:if>
+			  	     <c:if test="${project.projectState==5}">
+			  			已结项
+			  	    </c:if>
+			  	</td>
+			  	<td>${expertName}</td>
+			  	<td>${(project.firstGrade1+project.firstGrade2+project.firstGrade3)/3}</td>
+			  	<td>${(project.secondGrade1+project.secondGrade2+project.secondGrade3)/3}</td>
+			  	<td><a href="detail/${project.projectId}">项目详情</a></td>
 			  </tr>
 			 </c:forEach>
 		</c:if>

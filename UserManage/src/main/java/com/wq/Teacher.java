@@ -15,6 +15,7 @@ public class Teacher {
     private String password;  
     private int power;
     private String college;
+    private String teacherTitle;
     public Teacher(){    	
     }
     public Teacher(String id,String teacherName){
@@ -61,4 +62,10 @@ public class Teacher {
     public void setCollege(String college){
     	this.college = college;
     }
+	public String getTeacherTitle() {
+		return teacherTitle;
+	}
+	public void setTeacherTitle(String teacherTitle) {
+		this.teacherTitle = teacherTitle;
+	}
 }

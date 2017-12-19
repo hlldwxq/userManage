@@ -6,7 +6,7 @@ import com.wq.ProjectBatch;
 public interface BatchService {
 	List<ProjectBatch> listAllBatch();
 	void save(ProjectBatch batch);
-	ProjectBatch appliactionAllowed();
+	List<ProjectBatch> appliactionAllowed();
 	void nextState(int year,int level);
 	ProjectBatch getBatchByYearAndLevel(int year,int level);
 }

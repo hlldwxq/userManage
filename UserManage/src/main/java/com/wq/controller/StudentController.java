@@ -1,16 +1,26 @@
 package com.wq.controller;
-
-
 import com.wq.*;
 import com.wq.Service.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,17 +33,26 @@ public class StudentController {
 	@Autowired private TeacherService teacherService;
 	@Autowired private ProjectService projectService;
 	@Autowired private BatchService batchService;
-	@Autowired private ProjectFileService fileService;
+	@Autowired private AnnouncementService accouncementService;
 	
 	HttpSession session = null;
 	
+	@InitBinder 
+	protected void initBinder(WebDataBinder binder) { 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		dateFormat.setLenient(false); 
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+	}
+	
 	//访问用户的私人主页
 	@RequestMapping(value="/index",method=RequestMethod.GET)  
-	public String Student() {
+	public String Student(Model model) {
 		if(session == null || session.getAttribute("student") == null){
 			//没有用户登录应该让其登录
 			return "redirect:/student/login";
 		}else{
+			List<Announcement> announcementList = accouncementService.listAllAnnouncement();
+			model.addAttribute("announcementList", announcementList);
 			return "student/index";
 		}
 	} 
@@ -41,9 +60,7 @@ public class StudentController {
 	//GET用户登录的页面
 	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public String StudentLogin(){
-		if(session!=null && session.getAttribute("student")!=null){
-			return "redirect:student/index";
-		}
+	
 		return "student/login";
 	}
 	
@@ -85,38 +102,32 @@ public class StudentController {
 		}
 	}
 	
-	@RequestMapping(value="logout")
+	@RequestMapping(value="/logout")
 	public String StudentLogout(){
 		session.removeAttribute("student");
 		return "redirect:/index";
 	}
-	
+	//申请GET
 	@RequestMapping(value="/projectApplication",method=RequestMethod.GET)
 	public String projectAppliaction(Model model){
-		ProjectBatch batch = batchService.appliactionAllowed();
+		List<ProjectBatch> batch = batchService.appliactionAllowed();
 		if(batch!=null){
 			model.addAttribute("batch", batch);
 			List<Teacher> lt = teacherService.getAllTeacher();
 			model.addAttribute("teacher",lt);
-			return "student/projectApplication";
+			return "student/projectApplication1";
 		}
 		else{
 			return "student/cannotApplication";
 		}
-		
 	}
-	
+	//申请POST
 	@RequestMapping(value="/projectApplication",method=RequestMethod.POST)
-	public String processProjectAppliaction(StudentProject studentProject,MultipartFile reqisition,HttpServletRequest request)throws Exception{
-		projectService.projectApplication(studentProject);
-		
-		String filename = reqisition.getOriginalFilename();
-		ProjectFile f = new ProjectFile(filename,studentProject.getProjectId(),"申请书");
-		fileService.save(f);
-		String leftPath = "D:/GITRepository/file";  //************目录************//
-		File file = new File(leftPath,filename);
-		reqisition.transferTo(file);
+	public String processProjectAppliaction(Requisition requisition,HttpServletRequest request)throws Exception{
+		projectService.save(requisition);
+
 		return "redirect:/student/myProject";
+		
 	}
 	
 	@RequestMapping(value="/myProject",method=RequestMethod.GET)
@@ -126,6 +137,12 @@ public class StudentController {
 		model.addAttribute("myProject", sp);
 		return "student/myProject";
 	}
-	
-	
+	//详情
+	@RequestMapping(value="/detail/{projectId}")
+	public String detail(@PathVariable int projectId,Model model){
+		StudentProject project = projectService.getProjectById(projectId);
+		model.addAttribute("project",project);
+		return "student/detail";
+	}
+
 }

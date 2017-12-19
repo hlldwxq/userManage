@@ -6,7 +6,7 @@ import com.wq.ProjectBatch;
 public interface BatchDAO {
 	List<ProjectBatch> listAllBatch();
 	void save(ProjectBatch batch);
-	ProjectBatch appliactionAllowed();
+	List<ProjectBatch> appliactionAllowed();
 	void updateState(int year,int level);
 	ProjectBatch getBatchByYearAndLevel(int year,int level);
 }

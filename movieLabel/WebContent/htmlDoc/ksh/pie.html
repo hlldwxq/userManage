@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户性别分布</title>
+</head>
+<body>
+<div id="sexContainer" style="width: 50%;height: 300px"></div>
+<script type="text/javascript" src="../public/js/echarts.js"></script>
+<script type="text/javascript">
+    var sexPieChart=echarts.init(document.getElementById("sexContainer"));
+    var sexPieoption = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'right',
+            data:['男','女']
+        },
+        series: [
+            {
+                name:'性别分布',
+                type:'pie',
+                selectedMode: 'single',
+                radius: [0, '80%'],
+
+                label: {
+                    normal: {
+                        position: 'inner'
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:300, name:'男', selected:true},
+                    {value:50, name:'女'}
+                ]
+            }
+        ]
+    };
+    sexPieChart.setOption(sexPieoption);
+</script>
+</body>
+</html>

@@ -4,6 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import com.wq.Student;
+import com.wq.projectMember;
+
 import javax.annotation.Resource;
 
 @Repository
@@ -24,14 +26,14 @@ public class StudentDAOImpl implements StudentDAO{
 	}
 
 	@Override
-	public Student getById(Integer id) {
+	public Student getById(String id) {
 		return (Student)this.currentSession().createQuery("from Student where id = ?")
 		           .setParameter(0, id).uniqueResult();
 
 	}
 
 	@Override
-	public void deleteById(Integer id) {
+	public void deleteById(String id) {
 		currentSession().createQuery("delete Student where id = ? ")
 		    .setParameter(0,id).executeUpdate();
 	}
@@ -46,5 +48,7 @@ public class StudentDAOImpl implements StudentDAO{
 		return (Student)this.currentSession().createQuery("from Student where Studentname = ?")
 			       .setParameter(0, name).uniqueResult();
 	}
+
+
 
 }

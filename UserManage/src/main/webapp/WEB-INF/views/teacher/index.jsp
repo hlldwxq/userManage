@@ -13,8 +13,31 @@
 </head>
 <body>
 	<%@include file="base.jsp" %>
-	<div>
-		<h1>首页还没写好，导航栏可以点击</h1>		
-	</div>
+	<div class="container-fluid">
+	<div class="row-fluid">
+		<c:forEach items="${announcementList}" var="announcement">
+			<div class="col-md-12 column">
+				<p>
+					${announcement.text}
+				</p>
+				<p>
+				          创建人：${announcement.announcer} 时间：${announcement.createDate} 
+					<c:if test="${sessionScope.teacher.power==1}">
+						<a onclick="return ConfirmDel(${announcement.id});">删除</a>
+					</c:if>
+				</p>
+			</div>
+		</c:forEach>
+	</div>	
+    </div>
+    <script language=javascript>
+		function ConfirmDel(id)
+		{
+		   if(confirm("确定要删除此公告吗？"))
+		   {
+		        location.href='deleteAnnounce/'+id;
+		   }
+		}
+	</script>
 </body>
 </html>
