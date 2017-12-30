@@ -11,8 +11,8 @@ public class StudentServiceImpl implements StudentService{
 	@Resource private StudentDAO StudentList;
 
 	@Override
-	public boolean CorrectLogin(Student Student) {
-		return !(StudentList.getByIdAndPassword(Student)==null);
+	public Student CorrectLogin(Student Student) {
+		return StudentList.getByIdAndPassword(Student);
 	}
 
 	@Override
